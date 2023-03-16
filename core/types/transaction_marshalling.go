@@ -405,10 +405,11 @@ func (t *Transaction) UnmarshalJSON(input []byte) error {
 			}
 		}
 		if dec.EffectiveGasPrice == nil {
-			return errors.New("missing required field 'EffectiveGasPrice' in transaction")
+			dec.EffectiveGasPrice = (*hexutil.Uint64)(&itx.Gas)
 		}
 		if dec.L1BlockNumber == nil {
-			return errors.New("missing required field 'L1BlockNumber' in transaction")
+			n := hexutil.Uint64(0)
+			dec.L1BlockNumber = &n
 		}
 		inner = &ArbitrumLegacyTxData{
 			LegacyTx:          itx,
